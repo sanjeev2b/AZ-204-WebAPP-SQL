@@ -18,7 +18,7 @@ namespace AZ_204_WebAPP_SQL.Pages
 
         public void OnGet()
         {
-            Products = _productService.GetProducts();
+            Products = _productService.GetProducts().GetAwaiter().GetResult();
 
         }
     }

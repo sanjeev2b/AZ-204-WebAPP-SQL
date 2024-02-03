@@ -1,15 +1,11 @@
 ﻿using AZ_204_WebAPP_SQL.Models;
 using System.Data.SqlClient;
+using System.Text.Json;
 
 namespace AZ_204_WebAPP_SQL.Services
 {
     public class ProductService(IConfiguration configuration) : IProductService
     {
-        //private static string db_source = "sanaz204dbserver.database.windows.net";
-        //private static string db_user = "sanjeev2b";
-        //private static string db_password = "San007eev#1";
-        //private static string db_database = "AZ-204-DB";
-
         private readonly IConfiguration _configuration = configuration;
 
         private SqlConnection GetConnection()
@@ -18,29 +14,17 @@ namespace AZ_204_WebAPP_SQL.Services
             return new SqlConnection(_configuration.GetConnectionString("SQLConnection"));
         }
 
-        public List<Product> GetProducts()
+        public async Task<List<Product>> GetProducts()
         {
-            SqlConnection conn = GetConnection();
+            string functionUrl = "https://sanazurefuncapp.azurewebsites.net/api/GetProducts?code=WjWv1h9YT9dz_qLotkObt0HXZZO_46VeFPG3jmbW0lNcAzFujNhZWw==";
 
-            List<Product> productList = [];
-            string statement = "SELECT PRODUCTID, PRODUCTNAME, Quantity from PRODUCTS";
-            conn.Open();
-            SqlCommand cmd = new(statement, conn);
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using (HttpClient client = new HttpClient())
             {
-                while (reader.Read())
-                {
-                    Product product = new()
-                    {
-                        ProductID = reader.GetInt32(0),
-                        ProductName = reader.GetString(1),
-                        Quantity = reader.GetInt32(2)
-                    };
-                    productList.Add(product);
-                }
+                HttpResponseMessage responese = await client.GetAsync(functionUrl);
+                string content = await responese.Content.ReadAsStringAsync(); ;
+
+                return JsonSerializer.Deserialize<List<Product>>(content);
             }
-            conn.Close();
-            return productList;
         }
 
     }

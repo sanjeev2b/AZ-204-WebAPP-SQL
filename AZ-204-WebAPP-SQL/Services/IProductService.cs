@@ -4,6 +4,6 @@ namespace AZ_204_WebAPP_SQL.Services
 {
     public interface IProductService
     {
-        List<Product> GetProducts();
+        Task<List<Product>> GetProducts();
     }
 }
