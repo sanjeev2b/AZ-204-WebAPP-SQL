@@ -1,3 +1,4 @@
+
 using AZ_204_WebAPP_SQL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,7 @@ builder.Services.AddTransient<IProductService, ProductService>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
 
 var app = builder.Build();
 

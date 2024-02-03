@@ -3,22 +3,18 @@ using System.Data.SqlClient;
 
 namespace AZ_204_WebAPP_SQL.Services
 {
-    public class ProductService : IProductService
+    public class ProductService(IConfiguration configuration) : IProductService
     {
         //private static string db_source = "sanaz204dbserver.database.windows.net";
         //private static string db_user = "sanjeev2b";
         //private static string db_password = "San007eev#1";
         //private static string db_database = "AZ-204-DB";
 
-        private readonly IConfiguration _configuration;
-
-        ProductService(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+        private readonly IConfiguration _configuration = configuration;
 
         private SqlConnection GetConnection()
         {
+
             return new SqlConnection(_configuration.GetConnectionString("SQLConnection"));
         }
 

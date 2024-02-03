@@ -7,8 +7,6 @@ namespace AZ_204_WebAPP_SQL.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
         public List<Product> Products = new List<Product>();
 
         private readonly IProductService _productService;
@@ -16,10 +14,6 @@ namespace AZ_204_WebAPP_SQL.Pages
         public IndexModel(IProductService productService)
         {
             _productService = productService;
-        }
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
         }
 
         public void OnGet()
